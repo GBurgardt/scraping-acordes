@@ -1,24 +1,8 @@
 const baseUrl = 'https://acordes.lacuerda.net';
 const cheerio = require('cheerio');
-const { Console } = require('console');
 const iconv = require('iconv-lite');
 
-// const rp = require('request-promise');
-
-// 177.137.168.139:4145
-
-// 169.57.157.146:8123
-
-// 169.57.157.148:8123
-// 169.57.157.148:80
-// 169.57.157.148:25
-
 const rp = require('request-promise')
-    // .defaults({
-    //     // proxy: 'http://169.57.157.148:25',
-    //     proxy: 'http://103.86.161.242:4153',
-    //     strictSSL: false
-    // });
 
 const util = require('util')
 
@@ -260,173 +244,10 @@ const getArtistsHrefsByLetter = async letter => {
             
 }
 
-getArtistsHrefsByLetter('a')
-
-
-// /**
-//  * Solo una letra a la ves. Cuando termina, hago otro
-//  */
-// const executeScrappingByLetterAndSaveFile = async(letter) => {
-
-//     log("Comenzando..")
-//     // const resp1 = await getArtistsHrefsByLetter(letter);
-//     // const artistsHrefs = resp1.body.artistsHrefs;
-
-//     const artistsHrefs = ['/abel_zavala/'];
-
-//     const incompleteTabsPromises = artistsHrefs
-//         .map(
-//             async href => await getIncompleteTabsByArtistHref(href)
-//         );
-
-//     log("Scrapping avanzando...")
-    
-//     const incompleteTabsDirty = await Promise.all(incompleteTabsPromises);
-
-//     log(incompleteTabsDirty)
-
-//     const incompleteTabsDirty2 = incompleteTabsDirty.map(a => a.body.mainList);
-
-//     const incompleteTabsDirty3 = incompleteTabsDirty2.reduce(
-//         (acum, artistArray) => acum.concat(artistArray),
-//         []
-//     );
-
-//     const incompleteTabsDirty4 = incompleteTabsDirty3.reduce(
-//         (acum, it) => acum.concat([it.dataTabs])
-//         ,
-//         []
-//     )
-
-//     const incompleteTabsFinal = incompleteTabsDirty4.reduce(
-//         (acum, tabInfo) => acum.concat(tabInfo),
-//         []
-//     );
-    
-//     const completeTabs = await getCompleteTabsByIncompleteTabs(incompleteTabsFinal);
-
-//     log("Scrapping completo")
-//     log("Iniciando inserts mysql...")
-    
-//     const insertPromises = completeTabs
-//         .map(
-//             async tab => await insertTablature(tab)
-//         );
-        
-//     const insertResults = await Promise.all(insertPromises)
-
-//     log("Finalizado")
-// }
-
-// executeScrappingByLetterAndSaveFile('a')
-
-
+// getArtistsHrefsByLetter('a')
 
 exports.getCompleteTabByHref = getCompleteTabByHref;
 exports.getCompleteTabsByIncompleteTabs = getCompleteTabsByIncompleteTabs;
 exports.getIncompleteTabsByArtistHref = getIncompleteTabsByArtistHref;
 exports.getArtistsHrefsByLetter = getArtistsHrefsByLetter;
 exports.log = log;
-
-
-
-
-
-
-
-
-
-
-
-
-
-// /**
-//  * Obtener una tab dado su laCuerdaId y su tono 
-//  */
-// export const getCompleteTabByLaCuerdaIdAndTone = (laCuerdaId, tone) =>
-//     getNormalRequest('GET', `https://acordes.lacuerda.net/TRAN/procTran.php?codigo=${laCuerdaId}&action=newact&reqn=0&reqo=${tone}`)
-//         .then(
-//             resp => ({ 
-//                 body: 
-//                     resp && resp.body ?
-//                         {
-//                             ...resp,
-//                             laCuerdaId,
-//                             pre: cheerio.load(
-//                                 resp.body
-//                             )('pre').html()
-//                         } : 
-//                         {
-//                             pre: null,
-//                             laCuerdaId: null
-//                         }, 
-//                 statusCode: 200 
-//             })
-//         )
-//         .catch(
-//             ({ message: body, statusCode }) => {
-//                 console.log(body)
-//                 return { body, statusCode }
-//             }
-//         );
-        
-
-
-
-// /**
-//  * Obtener tab en tonalidad orgiinal
-//  */
-// export const getOriginalTab = (laCuerdaId, tone)=>
-//     getNormalRequest('GET', `https://acordes.lacuerda.net/TRAN/procTran.php?codigo=${laCuerdaId}&action=newact&reqn=0&reqo=${tone}`)
-//         .then(
-//             resp => ({ 
-//                 body: 
-//                     resp && resp.body ?
-//                         {
-//                             ...resp,
-//                             laCuerdaId,
-//                             pre: cheerio.load(
-//                                 resp.body
-//                             )('pre').html()
-//                         } : 
-//                         {
-//                             pre: null,
-//                             laCuerdaId: null
-//                         }, 
-//                 statusCode: 200 
-//             })
-//         )
-//         .catch(
-//             ({ message: body, statusCode }) => {
-//                 console.log(body)
-//                 return { body, statusCode }
-//             }
-//         );
-
-
-   
-// const getArtistsHrefsByLetter = (letter) => {
-
-//     getScrapRequest('GET', `${baseUrl}/tabs/${letter}/index${0}.html`)
-//         .then(
-//             $ => {
-                    
-//                 const artistsHrefs = []
-
-//                 $('#i_main li').each(function(i) {
-//                     const href = $('a', this).attr('href'); 
-
-//                     artistsHrefs.push(href)
-//                 });
-
-
-//                 return { 
-//                     body: { letter, artistsHrefs },
-//                     statusCode: 200 
-//                 }
-//             }
-//         )
-//         .catch(
-//             ({ message: body, statusCode }) => ({ body, statusCode })
-//         );
-// }

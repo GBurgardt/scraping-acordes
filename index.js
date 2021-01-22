@@ -25,7 +25,7 @@ const executeScrappingByLetterAndSaveFile = async(letter) => {
     );
 
     const incompleteTabsDirty4 = incompleteTabsDirty3.reduce(
-        (acum, it) => acum.concat([it.dataTabs])
+        (acum, it) => it && it.dataTabs ? acum.concat([it.dataTabs]) : acum
         ,
         []
     )
@@ -59,4 +59,4 @@ const executeScrappingByLetterAndSaveFile = async(letter) => {
     // log(insertResults)
 }
 
-executeScrappingByLetterAndSaveFile('c')
+executeScrappingByLetterAndSaveFile('z')
